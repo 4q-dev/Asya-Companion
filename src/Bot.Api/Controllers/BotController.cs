@@ -8,6 +8,7 @@ using ResultSharp.Logging;
 using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Bot.Api.Controllers;
 
@@ -32,7 +33,9 @@ public class BotController :
         if (Request.Headers["X-Telegram-Bot-Api-Secret-Token"] != secretToken)
             return Forbid();
 
-        Log.Information("Получено сообщение от {user} с текстом {text} из чата {from}", update.Message.From.Id, update.Message.Text, update.Message.Chat);
+        // потом вынести в хелпер для логгирования, а пока похуй, вайбуем
+        if (update.Type == UpdateType.Message)
+            Log.Information("Получено сообщение от {user} с текстом {text} из чата {from}", update.Message.From!.Id, update.Message.Text, update.Message.Chat);
 
         var result = await Result.TryAsync(async () =>
         { 

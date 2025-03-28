@@ -27,7 +27,7 @@ namespace Bot.Infrastructure.ServiceRegistration
             var logger = app.ApplicationServices.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(FeatureRegistrator));
             var assembly = typeof(IFeature).Assembly ?? throw new InvalidOperationException("Не удалось получить сборку");
 
-            logger.LogInformation("Осуществляю поиск фич в сборке '{assembly}'...", assembly);
+            logger.LogInformation("Осуществляю поиск фич в сборке '{assembly}'...", assembly.GetName().Name);
 
             var featuresTypes = assembly
                 .GetTypes()
