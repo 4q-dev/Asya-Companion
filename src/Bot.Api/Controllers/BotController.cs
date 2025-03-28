@@ -9,6 +9,7 @@ using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using LogLevel = ResultSharp.Logging.LogLevel;
 
 namespace Bot.Api.Controllers;
 
@@ -16,7 +17,8 @@ namespace Bot.Api.Controllers;
 [Route("/")]
 public class BotController :
     ControllerBase
-{ // блять какая же хуйня так скобки ставить это пиздец дима, что это нахуй за слипшийся кусок говна
+{
+
     private static readonly string secretToken = Environment.GetEnvironmentVariable(BotOptions.SecretTokenEnvName, EnvironmentVariableTarget.Machine)
         ?? throw new InvalidOperationException($"Необходимо поместить токен в переменную окружения '{BotOptions.SecretTokenEnvName}'");
 
@@ -35,10 +37,10 @@ public class BotController :
 
         // потом вынести в хелпер для логгирования, а пока похуй, вайбуем
         if (update.Type == UpdateType.Message)
-            Log.Information("Получено сообщение от {user} с текстом {text} из чата {from}", update.Message.From!.Id, update.Message.Text, update.Message.Chat);
+            Log.Information("Получено сообщение от {user} с текстом {text} из чата {from}", update.Message!.From?.Id, update.Message.Text, update.Message.Chat);
 
         var result = await Result.TryAsync(async () =>
-        { 
+        {
             await messageHandler.HandleMessageAsync(update, bot, cancellatoinToken)
                 .OnFailureAsync(errors => messageHandler.HandleErrorsAsync(errors, update, bot, cancellatoinToken))
                 .LogErrorMessagesAsync();
