@@ -3,8 +3,7 @@ using Telegram.Bot;
 
 namespace Bot.Application.Abstractions;
 
-public interface IFeature
-{
+public interface IFeature {
     public string Command { get; }
     public string? LlmPrompt { get; }
 

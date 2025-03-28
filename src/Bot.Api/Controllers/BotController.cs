@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using Bot.Api.ConfigurationOptions;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
-
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Bot.Api.ConfigurationOptions;
 
 namespace Bot.Api.Controllers;
 
 [ApiController]
 [Route("/")]
-public class BotController : ControllerBase
-{
-    private static readonly string secretToken = Environment.GetEnvironmentVariable(BotOptions.SecretTokenEnvName, EnvironmentVariableTarget.Machine) 
+public class BotController : ControllerBase {
+    private static readonly string secretToken = Environment.GetEnvironmentVariable(BotOptions.SecretTokenEnvName, EnvironmentVariableTarget.Machine)
         ?? throw new InvalidOperationException($"Необходимо поместить токен в переменную окружения '{BotOptions.SecretTokenEnvName}'");
 
     /// <summary>
@@ -23,17 +20,14 @@ public class BotController : ControllerBase
     /// <param name="ct">Ну это токен и так понятно</param>
     /// <returns>Ничего</returns>
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Update update, [FromServices] ITelegramBotClient bot, CancellationToken ct)
-    {
+    public async Task<IActionResult> Post([FromBody] Update update, [FromServices] ITelegramBotClient bot, CancellationToken ct) {
         if (Request.Headers["X-Telegram-Bot-Api-Secret-Token"] != secretToken)
             return Forbid();
 
-        try
-        {
+        try {
             Log.Information("Received update: {Update}", update);
         }
-        catch (Exception)
-        {
+        catch (Exception) {
             // а мни пихуй
         }
 

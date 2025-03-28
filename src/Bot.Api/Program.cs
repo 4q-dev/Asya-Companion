@@ -1,6 +1,5 @@
 ﻿using Bot.Api.RegistrationExtensions;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
