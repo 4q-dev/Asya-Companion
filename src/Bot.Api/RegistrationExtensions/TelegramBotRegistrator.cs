@@ -5,7 +5,6 @@ using Telegram.Bot;
 namespace Bot.Api.RegistrationExtensions;
 
 public static class TelegramBotRegistrator {
-
     public static IServiceCollection AddTelegramBot(this IServiceCollection services, IConfiguration configuration) {
         var section = configuration.GetSection(nameof(BotOptions));
         var botConfiguration = section.Get<BotOptions>();
