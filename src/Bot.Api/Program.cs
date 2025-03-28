@@ -6,20 +6,17 @@ var configuration = builder.Configuration;
 var services = builder.Services;
 
 services.AddControllers();
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
 
 services.AddCustomLogging(configuration);
 ResultSharpConfiguration.ConfigureResultSharp();
 
+services.AddTelegramBot(configuration);
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//app.UseHttpsRedirection(); // пока что это нахуй не надо
 
-app.UseHttpsRedirection();
+await app.UseTelegamBotWebhook();
 
 app.UseAuthorization();
 
