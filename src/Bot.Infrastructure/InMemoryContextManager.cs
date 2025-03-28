@@ -11,6 +11,7 @@ internal class InMemoryContextManager :
 {
     private readonly Dictionary<long, UserContext> userContexts = [];
 
+    // в будущем это можно перенести в условный редис
     public async Task<UserContext> GetUserContextAsync(Update update, CancellationToken cancellationToken)
     {
         var userId = update.GetUserId();
