@@ -4,8 +4,10 @@ using Telegram.Bot;
 
 namespace Bot.Api.RegistrationExtensions;
 
-public static class TelegramBotRegistrator {
-    public static IServiceCollection AddTelegramBot(this IServiceCollection services, IConfiguration configuration) {
+public static class TelegramBotRegistrator
+{
+    public static IServiceCollection AddTelegramBot(this IServiceCollection services, IConfiguration configuration)
+    {
         var section = configuration.GetSection(nameof(BotOptions));
         var botConfiguration = section.Get<BotOptions>();
         services.Configure<BotOptions>(section);
@@ -20,7 +22,8 @@ public static class TelegramBotRegistrator {
         return services;
     }
 
-    public static async Task UseTelegamBotWebhook(this IApplicationBuilder app) {
+    public static async Task UseTelegamBotWebhook(this IApplicationBuilder app)
+    {
         var configuration = app.ApplicationServices.GetRequiredService<IOptions<BotOptions>>().Value;
         var secretToken = Environment.GetEnvironmentVariable(BotOptions.SecretTokenEnvName, EnvironmentVariableTarget.Machine)
             ?? throw new InvalidOperationException($"Необходимо поместить токен в переменную окружения '{BotOptions.SecretTokenEnvName}'");

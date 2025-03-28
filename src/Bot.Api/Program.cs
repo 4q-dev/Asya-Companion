@@ -1,4 +1,6 @@
 ﻿using Bot.Api.RegistrationExtensions;
+using Bot.Infrastructure.ServiceRegistration;
+using Bot.Application.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -9,6 +11,10 @@ services.AddControllers();
 services.AddCustomLogging(configuration);
 ResultSharpConfiguration.ConfigureResultSharp();
 
+services
+    .AddInfrastructure()
+    .AddApplication();
+
 services.AddTelegramBot(configuration);
 
 var app = builder.Build();
@@ -16,6 +22,8 @@ var app = builder.Build();
 //app.UseHttpsRedirection(); // пока что это нахуй не надо
 
 await app.UseTelegamBotWebhook();
+
+app.UseFeatures();
 
 app.UseAuthorization();
 
