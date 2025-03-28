@@ -33,17 +33,14 @@ namespace Bot.Infrastructure.ServiceRegistration
 
             foreach (var featureType in featuresTypes)
             {
-                var feature = scope.ServiceProvider.GetRequiredService(featureType);
+                var feature = scope.ServiceProvider.GetRequiredService(featureType) as IFeature 
+                    ?? throw new InvalidCastException($"{featureType.Name} должен реализовывать {nameof(IFeature)}");
 
-                var addMethod = (container.GetType()
-                    .GetMethod(nameof(FeatureContainer.AddFeature)) ?? throw new InvalidOperationException("Не удалось получить метод для регистрации фичи."))
-                    .MakeGenericMethod(featureType);
-
-                addMethod.Invoke(container, [feature, () =>
+                container.AddFeature(feature, () =>
                 {
                     using var scope = app.ApplicationServices.CreateScope();
                     return (IFeature)scope.ServiceProvider.GetRequiredService(featureType);
-                }]);
+                });
             }
         }
     }

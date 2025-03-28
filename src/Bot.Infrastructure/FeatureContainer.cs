@@ -14,7 +14,7 @@ namespace Bot.Infrastructure
         public IReadOnlyCollection<string> Commands => commands.AsReadOnly();
         public IReadOnlyCollection<string> LlmPrompts => llmPrompts.AsReadOnly();
 
-        public void AddFeature<TFeature>(TFeature feature, Func<IFeature> featureCreation) where TFeature : IFeature
+        public void AddFeature(IFeature feature, Func<IFeature> featureCreation)
         {
             if (features.ContainsKey(feature.Command))
                 throw new InvalidOperationException($"Функция с командой {feature.Command} уже зарегистрирована");
