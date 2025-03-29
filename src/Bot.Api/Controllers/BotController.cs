@@ -9,7 +9,6 @@ using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using LogLevel = ResultSharp.Logging.LogLevel;
 
 namespace Bot.Api.Controllers;
 
@@ -18,9 +17,6 @@ namespace Bot.Api.Controllers;
 public class BotController :
     ControllerBase
 {
-
-    private static readonly string secretToken = Environment.GetEnvironmentVariable(BotOptions.SecretTokenEnvName, EnvironmentVariableTarget.Machine)
-        ?? throw new InvalidOperationException($"Необходимо поместить токен в переменную окружения '{BotOptions.SecretTokenEnvName}'");
 
     /// <summary>
     /// Все обновления от тг будут приходить сюда.
@@ -32,7 +28,7 @@ public class BotController :
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] Update update, [FromServices] ITelegramBotClient bot, IMessageHandler messageHandler, CancellationToken cancellatoinToken)
     {
-        if (Request.Headers["X-Telegram-Bot-Api-Secret-Token"] != secretToken)
+        if (Request.Headers["X-Telegram-Bot-Api-Secret-Token"] != BotOptions.SecretToken)
             return Forbid();
 
         // потом вынести в хелпер для логгирования, а пока похуй, вайбуем

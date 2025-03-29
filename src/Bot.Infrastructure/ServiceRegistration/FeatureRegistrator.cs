@@ -1,8 +1,8 @@
-﻿using Bot.Application.Abstractions;
+﻿using System.Diagnostics;
+using Bot.Application.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Bot.Infrastructure.ServiceRegistration
 {
@@ -36,15 +36,15 @@ namespace Bot.Infrastructure.ServiceRegistration
             logger.LogInformation("Найдено фич: {cnt}", featuresTypes.Count());
 
             using var scope = app.ApplicationServices.CreateScope();
-            
 
-            var container = scope.ServiceProvider.GetRequiredService<IFeatureContainer>() as FeatureContainer 
+
+            var container = scope.ServiceProvider.GetRequiredService<IFeatureContainer>() as FeatureContainer
                 ?? throw new InvalidOperationException();
-            
+
 
             foreach (var featureType in featuresTypes)
             {
-                var feature = scope.ServiceProvider.GetRequiredService(featureType) as IFeature 
+                var feature = scope.ServiceProvider.GetRequiredService(featureType) as IFeature
                     ?? throw new InvalidCastException($"{featureType.Name} должен реализовывать {nameof(IFeature)}");
 
                 logger.LogInformation("Регистрация фичи {name} для командой {command}", featureType.Name, feature.Command);

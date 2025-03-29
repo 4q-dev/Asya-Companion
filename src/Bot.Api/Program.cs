@@ -1,7 +1,7 @@
-﻿using Bot.Api.RegistrationExtensions;
-using Bot.Infrastructure.ServiceRegistration;
+﻿using System.Diagnostics;
+using Bot.Api.RegistrationExtensions;
 using Bot.Application.ServiceRegistration;
-using System.Diagnostics;
+using Bot.Infrastructure.ServiceRegistration;
 using Serilog;
 
 var sw = new Stopwatch();

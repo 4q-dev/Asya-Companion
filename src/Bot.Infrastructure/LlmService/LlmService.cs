@@ -1,12 +1,13 @@
 ﻿using Bot.Application.Abstractions;
 using ResultSharp.Core;
 
-namespace Bot.Infrastructure;
+namespace Bot.Infrastructure.LlmService;
 
-public class LlmService(IHttpClientFactory httpClientFactory) :
+internal class LlmService(LlmHttpClient llmClient, LlmContext context) :
     ILlmService
 {
-    private readonly HttpClient httpClient = httpClientFactory
+    private readonly LlmHttpClient llmClient = llmClient;
+    private readonly LlmContext context = context;
 
     public Task<Result<string>> GetCommandFromContextAsync(string userMessage, CancellationToken cancellationToken)
     {

@@ -6,7 +6,7 @@ using Telegram.Bot;
 
 namespace Bot.Application.Features
 {
-    public class BebraFeature(ILogger<BebraFeature> testDepends):
+    public class BebraFeature(ILogger<BebraFeature> testDepends) :
         IFeature
     {
         public string Command => "/bebra";
